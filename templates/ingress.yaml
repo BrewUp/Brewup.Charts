@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.global.namespaceOverride | default .Release.Namespace }}-{{ .Chart.Name }}-ingress
+  namespace: {{ .Values.global.namespaceOverride | default .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.global.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}.{{ .Values.global.ingress.domain }}
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: {{.Release.Name}}-{{ .Values.warehouse.name }}
+                port:
+                  number: {{ .Values.warehouse.service.port }}
+            path: {{.Values.warehouse.ingress.path | default "/" }}(/|$)(.*)
+          - pathType: Prefix
+            backend:
+              service:
+                name: {{.Release.Name}}-{{ .Values.sales.name }}
+                port:
+                  number: {{ .Values.sales.service.port }}
+            path: {{.Values.sales.ingress.path | default "/" }}(/|$)(.*)
+  {{- if .Values.global.ingress.tls.enabled }}
+  tls:
+    - hosts:
+      - {{ .Values.global.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}.{{ .Values.global.ingress.domain }}
+      secretName: {{ .Values.global.ingress.tls.secretName }}
+  {{- end }}
+            

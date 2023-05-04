@@ -1,6 +1,12 @@
 # Do not use those values in production! This is just for testing purposes. Passwords shouldn't stay here.
 global:
   namespaceOverride: ''
+  ingress: 
+    host: ''
+    domain: ''
+    tls: 
+      enabled: false
+      secretName: ''
   
 warehouse:
   name: "warehouse"
@@ -8,6 +14,8 @@ warehouse:
   replicas: 1
   imagePullPolicy: "Always"
   port: 80
+  ingress:
+    path: '/warehouse'
   service:
     port: 80
   eventStore:
@@ -23,6 +31,8 @@ sales:
   replicas: 1
   imagePullPolicy: "Always"
   port: 80
+  ingress:
+    path: '/sales'
   service:
     port: 80
   eventStore:
