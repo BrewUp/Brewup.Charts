@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eventstore-{{.Values.warehouse.name}}
+  namespace: {{ .Values.global.namespaceOverride }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: externalTcpPort
+      port: {{.Values.warehouse.eventStore.externalHttpPort}}
+      targetPort: {{.Values.warehouse.eventStore.externalHttpPort}}
+    - name: httpPort
+      port: {{.Values.warehouse.eventStore.httpPort}}
+      targetPort: {{.Values.warehouse.eventStore.httpPort}}
+  selector:
+    app: eventstore-{{.Values.warehouse.name}}

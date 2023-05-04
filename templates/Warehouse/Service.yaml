@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.global.namespaceOverride }}
+  name: {{ .Values.warehouse.name }}
+spec:
+  selector:
+    app: {{ .Values.warehouse.name }}
+  ports:
+    - port: {{.Values.warehouse.service.port }}
+      targetPort: {{.Values.warehouse.port }}
+  type: LoadBalancer

@@ -1,0 +1,38 @@
+# Do not use those values in production! This is just for testing purposes. Passwords shouldn't stay here.
+global:
+  namespaceOverride: brewup-microservices
+  
+warehouse:
+  name: "warehouse"
+  image: ""
+  replicas: 1
+  imagePullPolicy: "Always"
+  port: 80
+  service:
+    port: 80
+  eventStore:
+    httpPort: 2113
+    externalHttpPort: 1113
+  serviceBus:
+    connectionString: '',
+    clientId: ''
+
+sales:
+  name: "sales"
+  image: ""
+  replicas: 1
+  imagePullPolicy: "Always"
+  port: 80
+  service:
+    port: 80
+  eventStore:
+    httpPort: 2113
+    externalHttpPort: 1113
+  serviceBus:
+    connectionString: '',
+    clientId: ''
+
+mongodb:
+  architecture: "standalone"
+  auth:
+    rootPassword: "t00rM3Pswd"

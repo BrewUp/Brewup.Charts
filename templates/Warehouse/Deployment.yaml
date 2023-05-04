@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.global.namespaceOverride }}
+  name: {{.Values.warehouse.name }}
+  labels:
+    app: {{.Values.warehouse.name }}
+spec:
+  replicas: {{.Values.warehouse.replicas }}
+  template:
+    metadata:
+      name: {{.Values.warehouse.name }}
+      labels:
+        app: {{.Values.warehouse.name }}
+    spec:
+      containers:
+        - name: app-container
+          image: {{ .Values.warehouse.image }}
+          imagePullPolicy: {{ .Values.warehouse.imagePullPolicy }}
+          env:
+            - name: BrewUp__EventStoreSettings__ConnectionString
+              value: 'ConnectTo=tcp://eventstore-{{.Values.warehouse.name }}.svc.cluster.local:{{.Values.warehouse.eventStore.externalHttpPort }};UseSslConnection=false'
+            - name: BrewUp__MongoDbSettings__ConnectionString
+              value: 'mongodb://root:t00rM3Pswd@mongodb.svc.cluster.local:27017/brewup-warehouse'
+            - name: BrewUp__MongoDbSettings__DatabaseName
+              value: 'brewup-warehouse'
+            - name: BrewUp__ServiceBusSettings__ConnectionString
+              value: {{.Values.warehouse.serviceBus.connectionString }}
+            - name: BrewUp__ServiceBusSettings__ClientId
+              value: {{.Values.warehouse.serviceBus.clientId }}
+          ports:
+            - containerPort: {{ .Values.warehouse.port }}
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: {{.Values.warehouse.name }}
