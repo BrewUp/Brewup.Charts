@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{.Release.Name}}-eventstore-{{.Values.warehouse.name}}
+      app: eventstore-{{.Values.warehouse.name}}
   template:
     metadata:
       labels:
