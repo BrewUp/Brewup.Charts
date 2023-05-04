@@ -1,6 +1,6 @@
 # Do not use those values in production! This is just for testing purposes. Passwords shouldn't stay here.
 global:
-  namespaceOverride: brewup-microservices
+  namespaceOverride: ''
   
 warehouse:
   name: "warehouse"

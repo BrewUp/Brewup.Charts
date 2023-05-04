@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.global.namespaceOverride }}
-  name: {{.Values.sales.name }}
+  namespace: {{ .Values.global.namespaceOverride | default .Release.Namespace }}
+  name: {{.Release.Name}}-{{.Values.sales.name }}
   labels:
     app: {{.Values.sales.name }}
 spec:

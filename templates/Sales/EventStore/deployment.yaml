@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eventstore-{{.Values.sales.name}}
-  namespace: {{ .Values.global.namespaceOverride }}
+  name: {{.Release.Name}}-eventstore-{{.Values.sales.name}}
+  namespace: {{ .Values.global.namespaceOverride | default .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -25,9 +25,9 @@ spec:
             - name: EVENTSTORE_START_STANDARD_PROJECTIONS
               value: "true"
             - name: EVENTSTORE_EXT_TCP_PORT
-              value: {{.Values.sales.eventStore.externalHttpPort}}
+              value: {{.Values.sales.eventStore.externalHttpPort | quote}}
             - name: EVENTSTORE_HTTP_PORT
-              value: {{.Values.sales.eventStore.httpPort}}
+              value: {{.Values.sales.eventStore.httpPort | quote}}
             - name: EVENTSTORE_INSECURE
               value: "true"
             - name: EVENTSTORE_ENABLE_EXTERNAL_TCP

@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eventstore-{{.Values.warehouse.name}}
-  namespace: {{ .Values.global.namespaceOverride }}
+  namespace: {{ .Values.global.namespaceOverride | default .Release.Namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eventstore-{{.Values.warehouse.name}}
+      app: {{.Release.Name}}-eventstore-{{.Values.warehouse.name}}
   template:
     metadata:
       labels:
@@ -25,9 +25,9 @@ spec:
             - name: EVENTSTORE_START_STANDARD_PROJECTIONS
               value: "true"
             - name: EVENTSTORE_EXT_TCP_PORT
-              value: {{.Values.warehouse.eventStore.externalHttpPort}}
+              value: {{.Values.warehouse.eventStore.externalHttpPort | quote }}
             - name: EVENTSTORE_HTTP_PORT
-              value: {{.Values.warehouse.eventStore.httpPort}}
+              value: {{.Values.warehouse.eventStore.httpPort | quote }}
             - name: EVENTSTORE_INSECURE
               value: "true"
             - name: EVENTSTORE_ENABLE_EXTERNAL_TCP
