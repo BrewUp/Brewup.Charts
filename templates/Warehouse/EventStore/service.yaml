@@ -6,10 +6,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: externalTcpPort
+    - name: external-tcp-port
       port: {{.Values.warehouse.eventStore.externalHttpPort}}
       targetPort: {{.Values.warehouse.eventStore.externalHttpPort}}
-    - name: httpPort
+    - name: http-port
       port: {{.Values.warehouse.eventStore.httpPort}}
       targetPort: {{.Values.warehouse.eventStore.httpPort}}
   selector:

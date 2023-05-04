@@ -14,7 +14,7 @@ warehouse:
     httpPort: 2113
     externalHttpPort: 1113
   serviceBus:
-    connectionString: '',
+    connectionString: ''
     clientId: ''
 
 sales:
@@ -29,7 +29,7 @@ sales:
     httpPort: 2113
     externalHttpPort: 1113
   serviceBus:
-    connectionString: '',
+    connectionString: ''
     clientId: ''
 
 mongodb:
