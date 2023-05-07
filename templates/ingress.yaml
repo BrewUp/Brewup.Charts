@@ -6,28 +6,14 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-staging
     cert-manager.io/acme-challenge-type: http01
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.global.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}.{{ .Values.global.ingress.domain }}
+    - host: {{ .Values.warehouse.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}
       http:
         paths:
-          - pathType: Prefix
-            backend:
-              service:
-                name: {{.Release.Name}}-{{ .Values.warehouse.name }}
-                port:
-                  number: {{ .Values.warehouse.service.port }}
-            path: {{.Values.warehouse.ingress.path | default "/" }}(/|$)(.*)
-          - pathType: Prefix
-            backend:
-              service:
-                name: {{.Release.Name}}-{{ .Values.sales.name }}
-                port:
-                  number: {{ .Values.sales.service.port }}
-            path: {{.Values.sales.ingress.path | default "/" }}(/|$)(.*)
           - path: /(.*)
             pathType: Prefix
             backend:
@@ -35,10 +21,21 @@ spec:
                 name: {{.Release.Name}}-{{ .Values.warehouse.name }}
                 port:
                   number: {{ .Values.warehouse.service.port }}
+    - host: {{ .Values.sales.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{.Release.Name}}-{{ .Values.warehouse.name }}
+                port:
+                  number: {{ .Values.sales.service.port }}
   {{- if .Values.global.ingress.tls.enabled }}
   tls:
     - hosts:
-      - {{ .Values.global.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}.{{ .Values.global.ingress.domain }}
+      - {{ .Values.sales.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}
+      - {{ .Values.warehouse.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}
       secretName: {{ .Values.global.ingress.tls.secretName }}
   {{- end }}
             

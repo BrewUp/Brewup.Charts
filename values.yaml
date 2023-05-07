@@ -2,8 +2,6 @@
 global:
   namespaceOverride: ''
   ingress: 
-    host: ''
-    domain: ''
     tls: 
       enabled: true
       secretName: tls-secret
@@ -15,7 +13,7 @@ warehouse:
   imagePullPolicy: "Always"
   port: 80
   ingress:
-    path: '/warehouse'
+    host: ''
   service:
     port: 80
   eventStore:
@@ -32,7 +30,7 @@ sales:
   imagePullPolicy: "Always"
   port: 80
   ingress:
-    path: '/sales'
+    host: ''
   service:
     port: 80
   eventStore:
