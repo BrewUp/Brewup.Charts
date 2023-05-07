@@ -35,7 +35,9 @@ spec:
   tls:
     - hosts:
       - {{ .Values.sales.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}
+      secretName: {{ .Values.sales.name }}-tls
+    - hosts:
       - {{ .Values.warehouse.ingress.host | default .Release.Name | default .Values.global.namespaceOverride | default .Release.Namespace }}
-      secretName: {{ .Values.global.ingress.tls.secretName }}
+      secretName: {{ .Values.warehouse.name }}-tls
   {{- end }}
             
