@@ -28,7 +28,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{.Release.Name}}-{{ .Values.warehouse.name }}
+                name: {{.Release.Name}}-{{ .Values.sales.name }}
                 port:
                   number: {{ .Values.sales.service.port }}
   {{- if .Values.global.ingress.tls.enabled }}
