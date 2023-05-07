@@ -27,6 +27,13 @@ spec:
                 port:
                   number: {{ .Values.sales.service.port }}
             path: {{.Values.sales.ingress.path | default "/" }}(/|$)(.*)
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{.Release.Name}}-{{ .Values.warehouse.name }}
+                port:
+                  number: {{ .Values.warehouse.service.port }}
   {{- if .Values.global.ingress.tls.enabled }}
   tls:
     - hosts:
