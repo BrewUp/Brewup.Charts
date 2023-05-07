@@ -5,8 +5,8 @@ global:
     host: ''
     domain: ''
     tls: 
-      enabled: false
-      secretName: ''
+      enabled: true
+      secretName: tls-secret
   
 warehouse:
   name: "warehouse"
