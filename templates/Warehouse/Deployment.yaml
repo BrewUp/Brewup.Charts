@@ -19,9 +19,9 @@ spec:
           imagePullPolicy: {{ .Values.warehouse.imagePullPolicy }}
           env:
             - name: BrewUp__EventStoreSettings__ConnectionString
-              value: 'ConnectTo=tcp://brewup-micro-eventstore-{{.Values.warehouse.name }}.svc.{{ .Values.global.namespaceOverride | default .Release.Namespace }}.cluster.local:{{.Values.warehouse.eventStore.externalHttpPort }};UseSslConnection=false'
+              value: 'ConnectTo=tcp://brewup-micro-eventstore-{{.Values.warehouse.name }}.{{ .Values.global.namespaceOverride | default .Release.Namespace }}.svc.cluster.local:{{.Values.warehouse.eventStore.externalHttpPort }};UseSslConnection=false'
             - name: BrewUp__MongoDbSettings__ConnectionString
-              value: 'mongodb://root:t00rM3Pswd@brewup-micro-mongodb.svc.{{ .Values.global.namespaceOverride | default .Release.Namespace }}.cluster.local:27017/brewup-warehouse'
+              value: 'mongodb://root:t00rM3Pswd@brewup-micro-mongodb.{{ .Values.global.namespaceOverride | default .Release.Namespace }}.svc.cluster.local:27017/brewup-warehouse'
             - name: BrewUp__MongoDbSettings__DatabaseName
               value: 'brewup-warehouse'
             - name: BrewUp__ServiceBusSettings__ConnectionString
